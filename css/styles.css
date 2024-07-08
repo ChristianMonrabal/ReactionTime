@@ -27,9 +27,17 @@ body {
     box-shadow: 0 0 20px green;
 }
 
-#reactionButton, #resetButton {
+#reactionButton {
     padding: 10px 20px;
     font-size: 16px;
+    cursor: pointer;
+    background-color: green;
+}
+
+#resetButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    height: 5%;
     cursor: pointer;
 }
 

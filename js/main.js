@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 index++;
                 setTimeout(turnOffNextLight, 1000);
             } else {
-                // Cambiar las luces 2 y 4 a verde
                 lights[1].classList.add('green');
                 lights[3].classList.add('green');
                 allLightsOff = true;
@@ -48,6 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             const reactionTime = endTime - startTime;
             result.innerText = `Tu tiempo de reacción es: ${reactionTime} ms`;
+            saveReactionTime(reactionTime);
         }
 
         if (attemptCount >= maxAttempts) {
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function() {
         reactionButton.disabled = false;
         result.innerText = '';
         attemptCount = 0;
-        setTimeout(startSequence, 2000); // Espera 2 segundos antes de reiniciar la secuencia
+        setTimeout(startSequence, 2000);
     });
     
     function resetLights() {
@@ -70,6 +70,25 @@ document.addEventListener('DOMContentLoaded', function() {
             light.classList.remove('green');
             light.classList.add('red');
         });
+    }
+    
+    function saveReactionTime(time) {
+        const xhr = new XMLHttpRequest();
+        const url = '../includes/save_reaction_time.php';
+        const params = 'tiempo=' + encodeURIComponent(time); // Codificar correctamente el tiempo
+        
+        console.log('Tiempo a guardar:', time); // Depuración
+        
+        xhr.open('POST', url, true);
+        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+                console.log('Tiempo de reacción guardado.');
+            } else {
+                console.log('Error al guardar el tiempo de reacción.');
+            }
+        };
+        xhr.send(params);
     }
     
     startSequence();
