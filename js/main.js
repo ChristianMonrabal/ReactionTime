@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const endTime = new Date().getTime();
         
         if (!allLightsOff) {
-            result.innerText = "Salida anticipada!";
+            result.innerText = "Salida anticipada";
         } else {
             const reactionTime = endTime - startTime;
             result.innerText = `Tu tiempo de reacción es: ${reactionTime} ms`;
