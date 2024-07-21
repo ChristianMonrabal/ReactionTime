@@ -25,10 +25,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 index++;
                 setTimeout(turnOffNextLight, 1000);
             } else {
-                lights[1].classList.add('green');
-                lights[3].classList.add('green');
-                allLightsOff = true;
-                startTime = new Date().getTime();
+                const randomDelay = Math.random() * 2000 + 1000;
+                setTimeout(() => {
+                    lights[1].classList.add('green');
+                    lights[3].classList.add('green');
+                    allLightsOff = true;
+                    startTime = new Date().getTime();
+                }, randomDelay);
             }
         }
         
@@ -47,22 +50,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             const reactionTime = endTime - startTime;
             result.innerText = `Tu tiempo de reacción es: ${reactionTime} ms`;
-            saveReactionTime(reactionTime);
         }
 
+        reactionButton.style.display = 'none';
         if (attemptCount >= maxAttempts) {
-            reactionButton.disabled = true;
             resetButton.style.display = 'block';
         }
     });
     
     resetButton.addEventListener('click', function() {
-        resetLights();
-        resetButton.style.display = 'none';
-        reactionButton.disabled = false;
-        result.innerText = '';
-        attemptCount = 0;
-        setTimeout(startSequence, 2000);
+        location.reload();
     });
     
     function resetLights() {
@@ -71,25 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
             light.classList.add('red');
         });
     }
-    
-    function saveReactionTime(time) {
-        const xhr = new XMLHttpRequest();
-        const url = '../includes/save_reaction_time.php';
-        const params = 'tiempo=' + encodeURIComponent(time); // Codificar correctamente el tiempo
-        
-        console.log('Tiempo a guardar:', time); // Depuración
-        
-        xhr.open('POST', url, true);
-        xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            if (xhr.status === 200) {
-                console.log('Tiempo de reacción guardado.');
-            } else {
-                console.log('Error al guardar el tiempo de reacción.');
-            }
-        };
-        xhr.send(params);
-    }
-    
+
     startSequence();
 });
